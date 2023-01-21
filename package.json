@@ -3,10 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "19.x"
+  },
   "scripts": {
     "start": "node index.js",
     "seed": "node seed.js",
-    "build": "rm -rf dist && babel backend -d dist && cd frontend && npm install && npm run build",
     "test": "jest --watchAll --verbose"
   },
   "keywords": [],
