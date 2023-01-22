@@ -10,6 +10,7 @@
     "start": "node index.js",
     "seed": "node seed.js",
     "build": "rm -rf dist && babel backend -d dist && cd frontend && npm install && npm run build",
+    "openshift": "nodeshift --expose --dockerImage=registry.access.redhat.com/rhscl/ubi8/nodejs-12",
     "test": "jest --watchAll --verbose"
   },
   "keywords": [],
@@ -33,6 +34,11 @@
   },
   "devDependencies": {
     "jest": "^22.2.2",
+    "nodeshift": "^8.7.0",
     "supertest": "^3.0.0"
-  }
+  },
+  "files": [
+    "package.json",
+    "index.js"
+  ]
 }
