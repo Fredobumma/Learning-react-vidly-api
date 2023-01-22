@@ -9,77 +9,84 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  const movies = await Movie.find()
-    .select("-__v")
-    .sort("name");
-  res.send(movies);
+  try {
+    const movies = await Movie.find().select("-__v").sort("name");
+    res.send(movies);
+  } catch (error) {
+    return res.status(400).send("Bad Request.");
+  }
 });
 
 router.post("/", [auth], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const genre = await Genre.findById(req.body.genreId);
-  if (!genre) return res.status(400).send("Invalid genre.");
+  try {
+    const genre = await Genre.findById(req.body.genreId);
+    const movie = new Movie({
+      title: req.body.title,
+      genre: {
+        _id: genre._id,
+        name: genre.name,
+      },
+      numberInStock: req.body.numberInStock,
+      dailyRentalRate: req.body.dailyRentalRate,
+      publishDate: moment().toJSON(),
+    });
+    await movie.save();
 
-  const movie = new Movie({
-    title: req.body.title,
-    genre: {
-      _id: genre._id,
-      name: genre.name
-    },
-    numberInStock: req.body.numberInStock,
-    dailyRentalRate: req.body.dailyRentalRate,
-    publishDate: moment().toJSON()
-  });
-  await movie.save();
-
-  res.send(movie);
+    res.send(movie);
+  } catch (error) {
+    return res.status(400).send("Invalid genre.");
+  }
 });
 
 router.put("/:id", [auth], async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const genre = await Genre.findById(req.body.genreId);
-  if (!genre) return res.status(400).send("Invalid genre.");
-
-  const movie = await Movie.findByIdAndUpdate(
-    req.params.id,
-    {
-      title: req.body.title,
-      genre: {
-        _id: genre._id,
-        name: genre.name
+  try {
+    let genre;
+    try {
+      genre = await Genre.findById(req.body.genreId);
+    } catch (error) {
+      return res.status(400).send("Invalid genre.");
+    }
+    const movie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      {
+        title: req.body.title,
+        genre: {
+          _id: genre._id,
+          name: genre.name,
+        },
+        numberInStock: req.body.numberInStock,
+        dailyRentalRate: req.body.dailyRentalRate,
       },
-      numberInStock: req.body.numberInStock,
-      dailyRentalRate: req.body.dailyRentalRate
-    },
-    { new: true }
-  );
-
-  if (!movie)
+      { new: true }
+    );
+    res.send(movie);
+  } catch (error) {
     return res.status(404).send("The movie with the given ID was not found.");
-
-  res.send(movie);
+  }
 });
 
 router.delete("/:id", [auth, admin], async (req, res) => {
-  const movie = await Movie.findByIdAndRemove(req.params.id);
-
-  if (!movie)
+  try {
+    const movie = await Movie.findByIdAndRemove(req.params.id);
+    res.send(movie);
+  } catch (error) {
     return res.status(404).send("The movie with the given ID was not found.");
-
-  res.send(movie);
+  }
 });
 
 router.get("/:id", validateObjectId, async (req, res) => {
-  const movie = await Movie.findById(req.params.id).select("-__v");
-
-  if (!movie)
+  try {
+    const movie = await Movie.findById(req.params.id).select("-__v");
+    res.send(movie);
+  } catch (error) {
     return res.status(404).send("The movie with the given ID was not found.");
-
-  res.send(movie);
+  }
 });
 
 module.exports = router;
