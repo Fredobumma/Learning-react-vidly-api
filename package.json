@@ -7,9 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node_modules/.bin/netlify-lambda serve index.js",
+    "start": "node index.js",
     "seed": "node seed.js",
-    "build": "node_modules/.bin/netlify-lambda build index.js",
     "openshift": "nodeshift --expose --dockerImage=registry.access.redhat.com/rhscl/ubi8/nodejs-12",
     "test": "jest --watchAll --verbose"
   },
