@@ -84,8 +84,8 @@ router.get("/:id", validateObjectId, async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id).select("-__v");
     const { log } = console;
-    log(movie, Movie);
-    log(req.params.id, res);
+    log(movie);
+    log(req.params.id);
     res.send(movie);
   } catch (error) {
     return res.status(404).send("The movie with the given ID was not found.");
