@@ -18,8 +18,8 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", [auth], async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = validate(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
   try {
     const genre = await Genre.findById(req.body.genreId);
@@ -42,8 +42,8 @@ router.post("/", [auth], async (req, res) => {
 });
 
 router.put("/:id", [auth], async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  // const { error } = validate(req.body);
+  // if (error) return res.status(400).send(error.details[0].message);
 
   try {
     let genre;
