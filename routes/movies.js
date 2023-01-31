@@ -17,10 +17,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", [auth], async (req, res) => {
-  // const { error } = validate(req.body);
-  // if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", async (req, res) => {
   try {
     const genre = await Genre.findById(req.body.genreId);
     const movie = new Movie({
@@ -41,7 +38,7 @@ router.post("/", [auth], async (req, res) => {
   }
 });
 
-router.put("/:id", [auth], async (req, res) => {
+router.put("/:id", async (req, res) => {
   // const { error } = validate(req.body);
   // if (error) return res.status(400).send(error.details[0].message);
 
@@ -71,7 +68,7 @@ router.put("/:id", [auth], async (req, res) => {
   }
 });
 
-router.delete("/:id", [auth, admin], async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const movie = await Movie.findByIdAndRemove(req.params.id);
     res.send(movie);
@@ -80,7 +77,7 @@ router.delete("/:id", [auth, admin], async (req, res) => {
   }
 });
 
-router.get("/:id", validateObjectId, async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id).select("-__v");
     if (movie) res.send(movie);
