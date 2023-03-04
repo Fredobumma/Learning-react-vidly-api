@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/movies/:id", async (req, res) => {
   // const { error } = validate(req.body);
   // if (error) return res.status(400).send(error.details[0].message);
 
@@ -68,7 +68,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/movies/:id", async (req, res) => {
   try {
     const movie = await Movie.findByIdAndRemove(req.params.id);
     res.send(movie);
@@ -77,7 +77,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/movies/:id", async (req, res) => {
   try {
     const movie = await Movie.findById(req.params.id).select("-__v");
     if (movie) res.send(movie);

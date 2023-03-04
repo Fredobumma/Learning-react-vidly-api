@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -28,7 +28,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-router.put("/:id", [auth, validateObjectId], async (req, res) => {
+router.put("/genres/:id", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -46,7 +46,7 @@ router.put("/:id", [auth, validateObjectId], async (req, res) => {
   }
 });
 
-router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
+router.delete("/genres/:id", async (req, res) => {
   try {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     res.send(genre);
@@ -55,7 +55,7 @@ router.delete("/:id", [auth, admin, validateObjectId], async (req, res) => {
   }
 });
 
-router.get("/:id", validateObjectId, async (req, res) => {
+router.get("/genres/:id", async (req, res) => {
   try {
     const genre = await Genre.findById(req.params.id).select("-__v");
     res.send(genre);
