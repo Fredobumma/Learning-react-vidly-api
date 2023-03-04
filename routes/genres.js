@@ -28,7 +28,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/genres/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -46,7 +46,7 @@ router.put("/genres/:id", async (req, res) => {
   }
 });
 
-router.delete("/genres/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
   try {
     const genre = await Genre.findByIdAndRemove(req.params.id);
     res.send(genre);
@@ -55,7 +55,7 @@ router.delete("/genres/:id", async (req, res) => {
   }
 });
 
-router.get("/genres/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
     const genre = await Genre.findById(req.params.id).select("-__v");
     res.send(genre);
