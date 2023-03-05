@@ -2,7 +2,7 @@ const Joi = require("joi");
 const mongoose = require("mongoose");
 const { genreSchema } = require("./genre");
 
-mongoose.connect("mongodb://127.0.0.1/vidly" || process.env.VIDLY_DB);
+mongoose.connect(process.env.VIDLY_DB || "mongodb://127.0.0.1/vidly");
 
 const Movie = mongoose.model(
   "Movies",
