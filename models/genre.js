@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 mongoose.connect(process.env.VIDLY_DB || "mongodb://127.0.0.1/vidly");
 
 const genreSchema = new mongoose.Schema({
+  _id: { type: mongoose.Schema.Types.ObjectId },
   name: {
     type: String,
     required: true,
