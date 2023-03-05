@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 
-mongoose.connect(config.get("db"));
+mongoose.connect("mongodb://127.0.0.1/vidly" || process.env.VIDLY_DB);
 
 const genreSchema = new mongoose.Schema({
   name: {
