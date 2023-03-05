@@ -78,13 +78,16 @@ router.delete("/:id", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  try {
-    const movie = await Movie.findById(req.params.id).select("-__v");
-    if (movie) res.send(movie);
-    else res.send("Movie not found");
-  } catch (error) {
-    return res.status(404).send("The movie with the given ID was not found.");
-  }
+  const movie = await Movie.findById(req.params.id).select("-__v");
+  res.send(movie);
+  console.log(movie);
+  // try {
+  //   const movie = await Movie.findById(req.params.id).select("-__v");
+  //   if (movie) res.send(movie);
+  //   else res.send("Movie not found");
+  // } catch (error) {
+  //   return res.status(404).send("The movie with the given ID was not found.");
+  // }
 });
 
 module.exports = router;
